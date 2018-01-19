@@ -1,14 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
+
+import FlatListBasics from './app/components/FlatListBasics';
+import Movies from './app/components/Movies';
+
 
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.sectionData = [
+      { title: 'D', data: ['Devin'] },
+      { title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie'] },
+    ]
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <Movies />
+        {/*<FlatListBasics sections={this.sectionData}/>*/}
       </View>
     );
   }
@@ -21,4 +32,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  bigBlue: {
+    color: 'blue',
+    fontWeight: 'bold',
+    fontSize: 30
+  },
+  red: {
+    color: 'red',
+  }
 });
