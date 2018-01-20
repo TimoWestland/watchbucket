@@ -1,22 +1,22 @@
 import React from 'react';
+import WBColors from '../common/WBColors';
+import LoginButton from '../common/LoginButton';
 import {
   Image,
-  StatusBar,
+  Alert,
   View,
   Dimensions,
   ImageBackground,
   StyleSheet,
   TextInput,
+  Text,
   KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import LoginButton from '../common/LoginButton';
 
 // Constants
-const LOGIN_BTN_HEIGHT = 40,
-  WINDOW_WIDTH = Dimensions.get('window').width,
-  WINDOW_HEIGHT = Dimensions.get('window').height;
+const WINDOW_WIDTH = Dimensions.get('window').width;
 
 
 class LoginScreen extends React.Component {
@@ -37,7 +37,6 @@ class LoginScreen extends React.Component {
     const { email, password } = this.state;
 
     return (
-
       <ImageBackground style={styles.container} source={require('./img/bg-login.png')}>
         <KeyboardAvoidingView style={styles.scrollContainer} behavior="position">
           <Image
@@ -46,7 +45,8 @@ class LoginScreen extends React.Component {
             source={require('../common/img/logo.png')}
           />
           <View style={styles.form}>
-            <View style={[styles.formControl]}>
+            <View style={[styles.formControl, { marginBottom: 25 }]}>
+              <Image style={styles.icon} source={require('../common/img/icon-user.png')}/>
               <TextInput
                 style={styles.input}
                 underlineColorAndroid="rgba(0,0,0,0)"
@@ -60,6 +60,7 @@ class LoginScreen extends React.Component {
               />
             </View>
             <View style={styles.formControl}>
+              <Image style={styles.icon} source={require('../common/img/icon-lock.png')}/>
               <TextInput
                 style={styles.input}
                 underlineColorAndroid="rgba(0,0,0,0)"
@@ -73,8 +74,16 @@ class LoginScreen extends React.Component {
               />
             </View>
           </View>
-          <LoginButton style={styles.submit} credentials={{ email, password }}/>
+          <LoginButton
+            style={styles.submit}
+            credentials={{ email, password }}
+            onLoggedIn={() => Alert.alert('Logged In!')}
+            onLogInError={(error) => Alert.alert('Log in failed', error)}
+          />
         </KeyboardAvoidingView>
+        <View style={styles.footer}>
+          <Text style={styles.footerText}>Don't have an account? <Text style={styles.footerLink}>Sign up.</Text></Text>
+        </View>
       </ImageBackground>
     );
   }
@@ -86,23 +95,32 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   scrollContainer: {
-    flex: 1,
     alignItems: 'center',
   },
   logo: {
     width: (WINDOW_WIDTH - 40),
-    height: ((WINDOW_WIDTH - 35) / 2)
+    height: ((WINDOW_WIDTH - 35) / 2),
   },
 
   form: {
-    paddingTop: 50,
+    paddingTop: 60,
     paddingHorizontal: 20,
   },
   formControl: {
-    marginBottom: 20,
+    position: 'relative',
     paddingHorizontal: 8,
+    paddingLeft: 35,
     borderBottomWidth: 1,
     borderColor: 'white',
+  },
+  icon: {
+    position: 'absolute',
+    height: 21,
+    left: 2,
+    bottom: 0,
+    top: 11,
+    margin: 'auto',
+    opacity: .8,
   },
   input: {
     paddingVertical: 8,
@@ -110,14 +128,32 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 20,
   },
+
   submit: {
-    marginTop: 60,
     width: (WINDOW_WIDTH - 80),
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
+    marginTop: 40,
+  },
+
+  footer: {
+    position: 'absolute',
+    bottom: 25,
+    left: 0,
+    right: 0,
+  },
+  footerText: {
+    color: WBColors.colorWithAlpha('white', .6),
+    fontSize: 15,
+    letterSpacing: .2,
+    textAlign: 'center',
+  },
+  footerLink: {
+    color: WBColors.white,
+    fontWeight: '500',
+    fontSize: 15,
+    letterSpacing: .2,
+    textAlign: 'center',
   }
+
 });
 
 module.exports = connect()(LoginScreen);

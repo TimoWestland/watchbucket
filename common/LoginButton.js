@@ -1,4 +1,5 @@
 import React from 'react';
+import WBButton from './WBButton';
 import { StyleSheet, Alert, TouchableNativeFeedback, Platform, View, Text } from 'react-native';
 import { logInWithEmailAndPassword } from '../actions';
 import { connect } from 'react-redux';
@@ -10,9 +11,11 @@ export type Credentials = {
 
 class LoginButton extends React.Component {
   props: {
+    style: any,
     credentials: Credentials,
     dispatch: (action: any) => Promise,
-    onLoggedIn: ?() => void
+    onLoggedIn: ?() => void,
+    onLogInError: ?() => void
   };
   state: {
     isLoading: boolean
@@ -34,56 +37,45 @@ class LoginButton extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      // todo: abstract to button components
       return (
-        <TouchableNativeFeedback
+        <WBButton
+          theme="primary"
+          style={[styles.button, this.props.style]}
+          caption="Please wait..."
           onPress={() => {}}
-          background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Please wait...</Text>
-          </View>
-        </TouchableNativeFeedback>
+        />
       );
     }
 
     return (
-      <TouchableNativeFeedback
+      <WBButton
+        theme="primary"
+        style={[styles.button, this.props.style]}
+        caption="Sign in"
         onPress={() => this.logIn()}
-        background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>SIGN IN</Text>
-        </View>
-      </TouchableNativeFeedback>
+      />
     );
   }
 
   async logIn() {
-    const { dispatch, onLoggedIn } = this.props;
-    console.log('pressed log in');
-    console.log(this.props.credentials);
+    const { dispatch, onLoggedIn, onLogInError } = this.props;
 
     this.setState({ isLoading: true });
     try {
       await Promise.all([dispatch(logInWithEmailAndPassword(this.props.credentials))]);
+      onLoggedIn && onLoggedIn();
     } catch (e) {
       console.log(e);
+      onLogInError && onLogInError(e);
     } finally {
       this._isMounted && this.setState({ isLoading: false });
     }
-
-    onLoggedIn && onLoggedIn();
   }
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#2196F3',
-    borderRadius: 4,
-  },
-  buttonText: {
-    padding: 20,
-    color: 'white',
-    textAlign: 'center',
+    alignSelf: 'center'
   }
 });
 
