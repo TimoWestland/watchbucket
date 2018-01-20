@@ -3,12 +3,21 @@ import {
   Image,
   StatusBar,
   View,
-  Text,
+  Dimensions,
+  ImageBackground,
   StyleSheet,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import LoginButton from '../common/LoginButton';
+
+// Constants
+const LOGIN_BTN_HEIGHT = 40,
+  WINDOW_WIDTH = Dimensions.get('window').width,
+  WINDOW_HEIGHT = Dimensions.get('window').height;
+
 
 class LoginScreen extends React.Component {
   state: {
@@ -28,34 +37,45 @@ class LoginScreen extends React.Component {
     const { email, password } = this.state;
 
     return (
-      <View style={styles.container}>
-        <StatusBar barStyle="default"/>
-        <Text style={styles.header}>WatchBucket</Text>
 
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder="E-mail"
-            placeholderTextColor="white"
-            autoCorrect={false}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            onChangeText={(email) => this.setState({ email })}
+      <ImageBackground style={styles.container} source={require('./img/bg-login.png')}>
+        <KeyboardAvoidingView style={styles.scrollContainer} behavior="position">
+          <Image
+            resizeMode="cover"
+            style={styles.logo}
+            source={require('../common/img/logo.png')}
           />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="white"
-            secureTextEntry={true}
-            autoCorrect={false}
-            autoCapitalize="none"
-            onChangeText={(password) => this.setState({ password })}
-          />
-        </View>
-
-        <LoginButton credentials={{ email, password }}/>
-      </View>
+          <View style={styles.form}>
+            <View style={[styles.formControl]}>
+              <TextInput
+                style={styles.input}
+                underlineColorAndroid="rgba(0,0,0,0)"
+                placeholder="E-mail"
+                placeholderTextColor="rgba(255,255,255,0.8)"
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                returnKeyType="next"
+                onChangeText={(email) => this.setState({ email })}
+              />
+            </View>
+            <View style={styles.formControl}>
+              <TextInput
+                style={styles.input}
+                underlineColorAndroid="rgba(0,0,0,0)"
+                placeholder="Password"
+                placeholderTextColor="rgba(255,255,255,0.8)"
+                secureTextEntry={true}
+                autoCorrect={false}
+                autoCapitalize="none"
+                returnKeyType="send"
+                onChangeText={(password) => this.setState({ password })}
+              />
+            </View>
+          </View>
+          <LoginButton style={styles.submit} credentials={{ email, password }}/>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
@@ -63,31 +83,41 @@ class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#8a8a8a',
-    paddingTop: 100,
-    paddingLeft: 50,
-    paddingRight: 50,
+    paddingTop: 40,
   },
-
-  header: {
-    fontSize: 40,
-    color: 'white',
+  scrollContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  logo: {
+    width: (WINDOW_WIDTH - 40),
+    height: ((WINDOW_WIDTH - 35) / 2)
   },
 
   form: {
-    marginTop: 30,
-    marginBottom: 30,
+    paddingTop: 50,
+    paddingHorizontal: 20,
   },
-
-  input: {
-    fontSize: 18,
+  formControl: {
+    marginBottom: 20,
+    paddingHorizontal: 8,
+    borderBottomWidth: 1,
     borderColor: 'white',
-    paddingTop: 10,
-    paddingRight: 10,
-    paddingBottom: 10,
-    paddingLeft: 5,
-    color: 'white',
   },
+  input: {
+    paddingVertical: 8,
+    color: 'white',
+    backgroundColor: 'transparent',
+    fontSize: 20,
+  },
+  submit: {
+    marginTop: 60,
+    width: (WINDOW_WIDTH - 80),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+  }
 });
 
 module.exports = connect()(LoginScreen);

@@ -51,7 +51,7 @@ class LoginButton extends React.Component {
         onPress={() => this.logIn()}
         background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>SIGN IN</Text>
         </View>
       </TouchableNativeFeedback>
     );
@@ -76,20 +76,14 @@ class LoginButton extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 60,
-    alignItems: 'center'
-  },
   button: {
-    marginBottom: 30,
-    width: 300,
-    alignItems: 'center',
     backgroundColor: '#2196F3',
     borderRadius: 4,
   },
   buttonText: {
     padding: 20,
     color: 'white',
+    textAlign: 'center',
   }
 });
 
