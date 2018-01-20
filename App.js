@@ -37,6 +37,7 @@ class App extends React.Component {
 
   render() {
     return (
+      // Todo: abstract app and root
       <Provider store={store}>
         <LoginScreen/>
       </Provider>

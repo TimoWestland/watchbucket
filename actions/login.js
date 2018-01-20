@@ -20,15 +20,11 @@ async function _logInWithEmailAndPassword(email, password): Promise<Action> {
 
   try {
     const data = await firebaseEmailPasswordLogin(email, password);
-    console.log(data);
-
     action = {
       type: 'LOGIN_SUCCESS',
       data
     };
   } catch (error) {
-    console.log(error);
-
     action = {
       type: 'LOGIN_FAIL',
       error
@@ -57,7 +53,5 @@ function logOut(): ThunkAction {
     });
   };
 }
-
-
 
 module.exports = { logInWithEmailAndPassword, logOut };

@@ -47,6 +47,7 @@ class LoginScreen extends React.Component {
             style={styles.input}
             placeholder="Password"
             placeholderTextColor="white"
+            secureTextEntry={true}
             autoCorrect={false}
             autoCapitalize="none"
             onChangeText={(password) => this.setState({ password })}
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
 
   form: {
     marginTop: 30,
+    marginBottom: 30,
   },
 
   input: {
@@ -84,6 +86,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingBottom: 10,
     paddingLeft: 5,
+    color: 'white',
   },
 });
 

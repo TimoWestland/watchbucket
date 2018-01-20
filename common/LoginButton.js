@@ -58,8 +58,20 @@ class LoginButton extends React.Component {
   }
 
   async logIn() {
+    const { dispatch, onLoggedIn } = this.props;
     console.log('pressed log in');
     console.log(this.props.credentials);
+
+    this.setState({ isLoading: true });
+    try {
+      await Promise.all([dispatch(logInWithEmailAndPassword(this.props.credentials))]);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      this._isMounted && this.setState({ isLoading: false });
+    }
+
+    onLoggedIn && onLoggedIn();
   }
 }
 
@@ -70,7 +82,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 30,
-    width: 260,
+    width: 300,
     alignItems: 'center',
     backgroundColor: '#2196F3',
     borderRadius: 4,
