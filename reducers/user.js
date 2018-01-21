@@ -2,28 +2,24 @@ import type { Action } from '../actions/types';
 
 export type State = {
   isLoggedIn: boolean;
-  data: ?any;
-  error: ?string;
+  id: string,
+  name: string,
 }
 
 const initialState = {
   isLoggedIn: false,
-  data: null,
-  error: null,
+  id: null,
+  name: null,
 };
 
 function user(state: State = initialState, action: Action): State {
   switch(action.type) {
-    case 'LOGIN_SUCCESS':
+    case 'LOGGED_IN':
+      let { uid, displayName } = action.data;
       return {
         isLoggedIn: true,
-        data: action.data
-      };
-
-    case 'LOGIN_FAIL':
-      return {
-        ...initialState,
-        error: action.error
+        id: uid,
+        name: displayName
       };
 
     case 'LOGGED_OUT':

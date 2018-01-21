@@ -13,7 +13,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Constants
 const WINDOW_WIDTH = Dimensions.get('window').width;
@@ -77,8 +76,6 @@ class LoginScreen extends React.Component {
           <LoginButton
             style={styles.submit}
             credentials={{ email, password }}
-            onLoggedIn={() => Alert.alert('Logged In!')}
-            onLogInError={(error) => Alert.alert('Log in failed', error)}
           />
         </KeyboardAvoidingView>
         <View style={styles.footer}>
@@ -126,12 +123,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     color: 'white',
     backgroundColor: 'transparent',
-    fontSize: 20,
+    fontSize: 18,
   },
 
   submit: {
     width: (WINDOW_WIDTH - 80),
     marginTop: 40,
+    marginBottom: 20,
   },
 
   footer: {

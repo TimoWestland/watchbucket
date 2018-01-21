@@ -1,8 +1,6 @@
 export type Action =
-  | { type: 'LOGIN', credentials: Object }
-  | { type: 'LOGIN_FAIL', error: any }
   | {
-      type: 'LOGIN_SUCCESS',
+      type: 'LOGGED_IN',
       data: any
     }
   | { type: 'LOGGED_OUT' };

@@ -2,7 +2,6 @@ import * as firebase from 'firebase';
 
 import { Action, ThunkAction } from './types';
 
-// todo: create logout with prompt
 // todo: create fb login
 // todo: create google login
 
@@ -15,32 +14,27 @@ async function firebaseEmailPasswordLogin(email, password): Promise {
   });
 }
 
-async function _logInWithEmailAndPassword(email, password): Promise<Action> {
-  let action = {};
+async function _logInWithPassword(email, password): Promise<Action> {
+  // let action = {};
+  const data = await firebaseEmailPasswordLogin(email, password);
 
-  try {
-    const data = await firebaseEmailPasswordLogin(email, password);
-    action = {
-      type: 'LOGIN_SUCCESS',
-      data
-    };
-  } catch (error) {
-    action = {
-      type: 'LOGIN_FAIL',
-      error
-    };
-  }
+  const action = {
+    type: 'LOGGED_IN',
+    data
+  };
   return Promise.resolve(action);
 }
 
-function logInWithEmailAndPassword({ email, password }): ThunkAction {
+function logInWithPassword({ email, password }): ThunkAction {
   return dispatch => {
-    const login = _logInWithEmailAndPassword(email, password);
+    const login = _logInWithPassword(email, password);
 
     login.then(result => {
       dispatch(result);
       // Add more dispatches here so the login process isn't blocked by them
-    });
+    }).catch(e => console.log(e));
+
+    return login;
   };
 }
 
@@ -54,4 +48,4 @@ function logOut(): ThunkAction {
   };
 }
 
-module.exports = { logInWithEmailAndPassword, logOut };
+module.exports = { logInWithPassword, logOut };

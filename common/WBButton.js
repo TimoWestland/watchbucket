@@ -2,9 +2,7 @@ import React from 'react';
 import WBColors from './WBColors';
 import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
 
-const BUTTON_HEIGHT = 52,
-  BUTTON_HEIGHT_SM = 32;
-
+const BUTTON_HEIGHT = 52;
 
 class WBButton extends React.Component {
   props: {
@@ -20,8 +18,6 @@ class WBButton extends React.Component {
     opacity: 1,
     theme: 'primary'
   };
-
-  static height = BUTTON_HEIGHT;
 
   render() {
     const { icon, fontSize, opacity } = this.props;
@@ -48,6 +44,7 @@ class WBButton extends React.Component {
         </Text>
       </View>
     );
+
 
     if (this.props.onPress) {
       return (
@@ -86,7 +83,7 @@ class WBButton extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: BUTTON_HEIGHT
+    height: BUTTON_HEIGHT,
   },
   button: {
     flex: 1,
@@ -95,14 +92,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 30,
     borderRadius: 4,
-
-    borderColor: '#ddd',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 1,
   },
   icon: {
     marginRight: 12
@@ -114,5 +103,4 @@ const styles = StyleSheet.create({
   }
 });
 
-const Button = WBButton;
-module.exports = Button;
+module.exports = WBButton;

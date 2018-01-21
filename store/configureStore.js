@@ -7,7 +7,7 @@ const isDebuggingInChrome = true;
 
 const logger = createLogger({
   predicate: (getState, action) => isDebuggingInChrome,
-  collapsed: true,
+  collapsed: false,
   duration: true
 });
 
