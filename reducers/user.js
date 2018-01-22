@@ -28,4 +28,4 @@ function user(state: State = initialState, action: Action): State {
   return state;
 }
 
-module.exports = user;
+export default user;

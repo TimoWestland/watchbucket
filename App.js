@@ -1,18 +1,15 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Provider } from 'react-redux';
-
-import * as firebase from 'firebase';
-import { firebaseConfig } from './env';
-
+import WBNavigator from './WBNavigator';
 import configureStore from './store/configureStore';
-import LoginScreen from './login/LoginScreen';
+import * as firebase from 'firebase';
+import { Provider } from 'react-redux';
+import { firebaseConfig } from './env';
 
 firebase.initializeApp(firebaseConfig);
 
-const store = configureStore();
-
 class App extends React.Component {
+  store = configureStore();
+
   state: {
     isLoading: boolean,
     store: any
@@ -26,34 +23,16 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    // configureStore()
-    //   .then(
-    //     store => this.setState({ store, storeCreated: true })
-    //   );
-    //
-    // console.log(this.state.store);
-  }
-
   render() {
+    console.log(this.store);
     return (
       // Todo: abstract app and root
-      <Provider store={store}>
-        <LoginScreen/>
+      <Provider store={this.store}>
+        <WBNavigator/>
       </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-
-});
-
-function select(store) {
-  return {
-    isLoggedIn: store.user.isLoggedIn
-  };
-}
-
-module.exports = App;
+export default App;
 

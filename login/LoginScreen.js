@@ -3,7 +3,7 @@ import WBColors from '../common/WBColors';
 import LoginButton from '../common/LoginButton';
 import {
   Image,
-  Alert,
+  Button,
   View,
   Dimensions,
   ImageBackground,
@@ -23,6 +23,9 @@ class LoginScreen extends React.Component {
     email: string,
     password: string
   };
+  props: {
+    navigation: Object
+  };
 
   constructor() {
     super();
@@ -33,6 +36,7 @@ class LoginScreen extends React.Component {
   }
 
   render() {
+    const { navigation } = this.props;
     const { email, password } = this.state;
 
     return (
@@ -77,6 +81,12 @@ class LoginScreen extends React.Component {
             style={styles.submit}
             credentials={{ email, password }}
           />
+          {/*TMP, REMOVE LATER!*/}
+          <Button
+            title="Go to WatchList"
+            onPress={() => navigation.dispatch({ type: 'NAVIGATE', route: 'WatchList' })}
+          />
+
         </KeyboardAvoidingView>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account? <Text style={styles.footerLink}>Sign up.</Text></Text>
