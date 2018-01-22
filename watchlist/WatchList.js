@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 class WatchList extends React.Component {
   static navigationOptions = {
-    title: 'WatchList'
+    title: 'Your Watchlist',
   };
 
   constructor() {
@@ -13,11 +13,23 @@ class WatchList extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text style={{fontSize: 30}}>This is your watch list!</Text>
+      <View style={styles.container}>
+        <Text style={styles.text}>This is your watchlist!</Text>
       </View>
     );
   }
 }
 
-module.exports = connect()(WatchList);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  text: {
+    textAlign: 'center',
+    fontSize: 30
+  }
+});
+
+export default connect()(WatchList);

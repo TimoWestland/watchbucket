@@ -24,7 +24,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.store);
     return (
       // Todo: abstract app and root
       <Provider store={this.store}>

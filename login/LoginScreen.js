@@ -27,6 +27,10 @@ class LoginScreen extends React.Component {
     navigation: Object
   };
 
+  static navigationOptions = {
+    header: null
+  };
+
   constructor() {
     super();
     this.state = {
@@ -80,13 +84,8 @@ class LoginScreen extends React.Component {
           <LoginButton
             style={styles.submit}
             credentials={{ email, password }}
+            onLoggedIn={() => navigation.dispatch({ type: 'NAVIGATE', route: 'WatchList' })}
           />
-          {/*TMP, REMOVE LATER!*/}
-          <Button
-            title="Go to WatchList"
-            onPress={() => navigation.dispatch({ type: 'NAVIGATE', route: 'WatchList' })}
-          />
-
         </KeyboardAvoidingView>
         <View style={styles.footer}>
           <Text style={styles.footerText}>Don't have an account? <Text style={styles.footerLink}>Sign up.</Text></Text>

@@ -17,6 +17,7 @@ class WBNavigator extends React.Component {
 
   render() {
     return (
+
       <AppNavigator navigation={addNavigationHelpers({
         dispatch: this.props.dispatch,
         state: this.props.nav
@@ -25,8 +26,8 @@ class WBNavigator extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const select = state => ({
   nav: state.navigation,
 });
 
-export default connect(mapStateToProps)(WBNavigator);
+export default connect(select)(WBNavigator);

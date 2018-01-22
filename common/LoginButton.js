@@ -1,6 +1,6 @@
 import React from 'react';
 import WBButton from './WBButton';
-import { StyleSheet, Alert, TouchableNativeFeedback, Platform, View, Text } from 'react-native';
+import { StyleSheet, Alert, Keyboard } from 'react-native';
 import { logInWithPassword } from '../actions';
 import { connect } from 'react-redux';
 
@@ -57,19 +57,20 @@ class LoginButton extends React.Component {
   }
 
   async logIn() {
+    Keyboard.dismiss();
+
     const { dispatch, onLoggedIn } = this.props;
 
     this.setState({ isLoading: true });
     try {
       await Promise.all([dispatch(logInWithPassword(this.props.credentials))]);
+      onLoggedIn && onLoggedIn();
     } catch (error) {
       Alert.alert(error);
       // TODO: build proper error handling and validation
     } finally {
       this._isMounted && this.setState({ isLoading: false });
     }
-
-    onLoggedIn && onLoggedIn();
   }
 }
 
