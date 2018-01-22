@@ -58,7 +58,6 @@ class LoginButton extends React.Component {
 
   async logIn() {
     Keyboard.dismiss();
-
     const { dispatch, onLoggedIn } = this.props;
 
     this.setState({ isLoading: true });
@@ -80,4 +79,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = connect()(LoginButton);
+export default connect()(LoginButton);

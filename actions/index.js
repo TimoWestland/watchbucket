@@ -1,5 +1,5 @@
 import * as loginActions from './login';
 
-module.exports = {
+export default {
   ...loginActions,
 };

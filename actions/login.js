@@ -1,5 +1,4 @@
 import * as firebase from 'firebase';
-
 import { Action, ThunkAction } from './types';
 
 // todo: create fb login
@@ -25,7 +24,7 @@ async function _logInWithPassword(email, password): Promise<Action> {
   return Promise.resolve(action);
 }
 
-function logInWithPassword({ email, password }): ThunkAction {
+export function logInWithPassword({ email, password }): ThunkAction {
   return dispatch => {
     const login = _logInWithPassword(email, password);
 
@@ -38,7 +37,7 @@ function logInWithPassword({ email, password }): ThunkAction {
   };
 }
 
-function logOut(): ThunkAction {
+export function logOut(): ThunkAction {
   return dispatch => {
     firebase.auth().signOut();
 
@@ -48,4 +47,3 @@ function logOut(): ThunkAction {
   };
 }
 
-module.exports = { logInWithPassword, logOut };
