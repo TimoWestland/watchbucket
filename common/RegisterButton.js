@@ -1,20 +1,16 @@
 import React from 'react';
 import WBButton from './WBButton';
 import { StyleSheet, Alert, Keyboard } from 'react-native';
-import { logInWithPassword } from '../actions';
 import { connect } from 'react-redux';
+import { registerWithPassword } from '../actions/register';
 
-export type Credentials = {
-  email: string,
-  password: string
-};
+import type { Credentials } from './LoginButton';
 
-class LoginButton extends React.Component {
+class RegisterButton extends React.Component {
   props: {
     style: any,
     credentials: Credentials,
     dispatch: (action: any) => Promise,
-    onLoggedIn: ?() => void
   };
   state: {
     isLoading: boolean
@@ -38,7 +34,7 @@ class LoginButton extends React.Component {
     if (this.state.isLoading) {
       return (
         <WBButton
-          theme="primary"
+          theme="secondary"
           style={[styles.button, this.props.style]}
           caption="Please wait..."
           onPress={() => {}}
@@ -48,22 +44,22 @@ class LoginButton extends React.Component {
 
     return (
       <WBButton
-        theme="primary"
+        theme="secondary"
         style={[styles.button, this.props.style]}
-        caption="Sign in"
-        onPress={() => this.logIn()}
+        caption="Sign up"
+        onPress={() => this.register()}
       />
     );
   }
 
   // TODO: build proper error handling and validation
-  async logIn() {
+  async register() {
     Keyboard.dismiss();
-    const { dispatch, onLoggedIn } = this.props;
+    const { dispatch } = this.props;
 
     this.setState({ isLoading: true });
     try {
-      await Promise.all([dispatch(logInWithPassword(this.props.credentials))]);
+      await Promise.all([dispatch(registerWithPassword(this.props.credentials))]);
     } catch (e) {
       const message = e.message || e;
       Alert.alert(message);
@@ -71,8 +67,6 @@ class LoginButton extends React.Component {
     } finally {
       this._isMounted && this.setState({ isLoading: false });
     }
-
-    onLoggedIn && onLoggedIn();
   }
 }
 
@@ -82,4 +76,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(LoginButton);
+export default connect()(RegisterButton);

@@ -1,9 +1,7 @@
 export type Action =
-  | {
-      type: 'LOGGED_IN',
-      data: any
-    }
-  | { type: 'LOGGED_OUT' };
+  | { type: 'LOGGED_IN', data: any }
+  | { type: 'LOGGED_OUT' }
+  | { type: 'REGISTERED', data: any }
 
 export type Dispatch = (
   action: Action | ThunkAction | PromiseAction | Array<Action>

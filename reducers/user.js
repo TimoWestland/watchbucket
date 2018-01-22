@@ -4,12 +4,14 @@ export type State = {
   isLoggedIn: boolean;
   id: string,
   name: string,
+  emailVerified: boolean,
 }
 
 const initialState = {
   isLoggedIn: false,
   id: null,
   name: null,
+  emailVerified: false,
 };
 
 function user(state: State = initialState, action: Action): State {
@@ -24,6 +26,12 @@ function user(state: State = initialState, action: Action): State {
 
     case 'LOGGED_OUT':
       return initialState;
+
+    case 'REGISTERED':
+      return {
+        ...initialState,
+        emailVerified: action.data.emailVerified
+      }
   }
   return state;
 }

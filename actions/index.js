@@ -1,5 +1,7 @@
 import * as loginActions from './login';
+import * as registerActions from './register';
 
-export default {
+module.export = {
   ...loginActions,
+  ...registerActions,
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import WBColors from '../common/WBColors';
 import LoginButton from '../common/LoginButton';
+import RegisterButton from '../common/RegisterButton';
 import {
   Image,
-  Button,
   View,
   Dimensions,
   ImageBackground,
@@ -21,14 +21,15 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 class LoginScreen extends React.Component {
   state: {
     email: string,
-    password: string
+    password: string,
+    isRegistering: boolean,
   };
   props: {
-    navigation: Object
+    navigation: Object,
   };
 
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   constructor() {
@@ -36,13 +37,11 @@ class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
+      isRegistering: true,
     };
   }
 
   render() {
-    const { navigation } = this.props;
-    const { email, password } = this.state;
-
     return (
       <ImageBackground style={styles.container} source={require('./img/bg-login.png')}>
         <KeyboardAvoidingView style={styles.scrollContainer} behavior="position">
@@ -81,16 +80,38 @@ class LoginScreen extends React.Component {
               />
             </View>
           </View>
-          <LoginButton
-            style={styles.submit}
-            credentials={{ email, password }}
-            onLoggedIn={() => navigation.dispatch({ type: 'NAVIGATE', route: 'WatchList' })}
-          />
+          {this.renderButton()}
         </KeyboardAvoidingView>
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account? <Text style={styles.footerLink}>Sign up.</Text></Text>
+          <Text
+            style={styles.footerText}
+            onPress={() => this.setState({ isRegistering: true })}>
+            Don't have an account? <Text style={styles.footerLink}>Sign up.</Text>
+          </Text>
         </View>
       </ImageBackground>
+    );
+  }
+
+  renderButton() {
+    const { navigation } = this.props;
+    const { email, password } = this.state;
+
+    if (this.state.isRegistering) {
+      return (
+        <RegisterButton
+          style={styles.submit}
+          credentials={{ email, password }}
+        />
+      );
+    }
+
+    return (
+      <LoginButton
+        style={styles.submit}
+        credentials={{ email, password }}
+        // onLoggedIn={() => navigation.dispatch({ type: 'NAVIGATE', route: 'WatchList' })}
+      />
     );
   }
 }
@@ -159,8 +180,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     letterSpacing: .2,
     textAlign: 'center',
-  }
-
+  },
 });
 
 module.exports = connect()(LoginScreen);

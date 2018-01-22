@@ -14,7 +14,6 @@ async function firebaseEmailPasswordLogin(email, password): Promise {
 }
 
 async function _logInWithPassword(email, password): Promise<Action> {
-  // let action = {};
   const data = await firebaseEmailPasswordLogin(email, password);
 
   const action = {
@@ -24,20 +23,20 @@ async function _logInWithPassword(email, password): Promise<Action> {
   return Promise.resolve(action);
 }
 
-export function logInWithPassword({ email, password }): ThunkAction {
+function logInWithPassword({ email, password }): ThunkAction {
   return dispatch => {
     const login = _logInWithPassword(email, password);
 
     login.then(result => {
       dispatch(result);
-      // Add more dispatches here so the login process isn't blocked by them
+      dispatch({ type: 'NAVIGATE', route: 'WatchList' });
     }).catch(e => console.log(e));
 
     return login;
   };
 }
 
-export function logOut(): ThunkAction {
+function logOut(): ThunkAction {
   return dispatch => {
     firebase.auth().signOut();
 
@@ -47,3 +46,4 @@ export function logOut(): ThunkAction {
   };
 }
 
+module.exports = { logInWithPassword, logOut };
