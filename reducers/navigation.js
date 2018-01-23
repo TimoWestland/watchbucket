@@ -3,8 +3,6 @@ import { AppNavigator } from '../WBNavigator';
 
 const initialAction = AppNavigator.router.getActionForPathAndParams('Login');
 const initialRouterState = AppNavigator.router.getStateForAction(initialAction);
-// const secondAction = AppNavigator.router.getActionForPathAndParams('WatchList');
-
 const initialState = AppNavigator.router.getStateForAction(
   initialAction,
   initialRouterState

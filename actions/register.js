@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import { Platform, ActionSheetIOS, Alert } from 'react-native';
 import { Action, ThunkAction } from './types';
 import { logInWithPassword } from './login';
 
@@ -13,7 +14,7 @@ async function firebaseCreateUserWithPassword(email, password): Promise {
 
 async function _createUserWithPassword(email, password): Promise<Action> {
   const data = await firebaseCreateUserWithPassword(email, password);
-  console.log(data);
+
   const action = {
     type: 'REGISTERED',
     data
@@ -27,11 +28,31 @@ function registerWithPassword({ email, password }): ThunkAction {
 
     register.then(result => {
       dispatch(result);
-      dispatch(logInWithPassword({ email, password }));
-    });
+
+      if (Platform.OS === 'ios') {
+        ActionSheetIOS.showActionSheetWithOptions(
+          {
+            title: 'Your account was created!',
+            options: ['Sign in', 'Cancel'],
+            destructiveButtonIndex: 0,
+            cancelButtonIndex: 1
+          },
+          buttonIndex => {
+            if (buttonIndex === 0) {
+              dispatch(logInWithPassword({ email, password }));
+            }
+          }
+        );
+      } else {
+        Alert.alert('Your account was created!', 'Do you want to sign in?', [
+          { text: 'Cancel' },
+          { text: 'Sign in', onPress: () => dispatch(logInWithPassword({ email, password })) }
+        ]);
+      }
+    }).catch((e) => console.log(e));
 
     return register;
   };
 }
 
-module.exports = { registerWithPassword };
+export { registerWithPassword };
