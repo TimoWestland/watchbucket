@@ -1,7 +1,7 @@
 import React from 'react';
 import WBButton from './WBButton';
 import { StyleSheet, Alert, Keyboard } from 'react-native';
-import { logInWithPassword } from '../actions';
+import { logInWithPassword } from '../actions/login';
 import { connect } from 'react-redux';
 
 export type Credentials = {

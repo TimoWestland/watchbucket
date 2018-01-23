@@ -29,6 +29,7 @@ function logInWithPassword({ email, password }): ThunkAction {
 
     login.then(result => {
       dispatch(result);
+      // todo: this goes to fast when registering, how can we send a message to the user first?
       dispatch({ type: 'NAVIGATE', route: 'WatchList' });
     }).catch(e => console.log(e));
 

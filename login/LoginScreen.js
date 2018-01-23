@@ -17,7 +17,6 @@ import { connect } from 'react-redux';
 // Constants
 const WINDOW_WIDTH = Dimensions.get('window').width;
 
-
 class LoginScreen extends React.Component {
   state: {
     email: string,
@@ -37,7 +36,7 @@ class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      isRegistering: true,
+      isRegistering: false,
     };
   }
 
@@ -82,19 +81,12 @@ class LoginScreen extends React.Component {
           </View>
           {this.renderButton()}
         </KeyboardAvoidingView>
-        <View style={styles.footer}>
-          <Text
-            style={styles.footerText}
-            onPress={() => this.setState({ isRegistering: true })}>
-            Don't have an account? <Text style={styles.footerLink}>Sign up.</Text>
-          </Text>
-        </View>
+        {this.renderFooter()}
       </ImageBackground>
     );
   }
 
   renderButton() {
-    const { navigation } = this.props;
     const { email, password } = this.state;
 
     if (this.state.isRegistering) {
@@ -110,8 +102,31 @@ class LoginScreen extends React.Component {
       <LoginButton
         style={styles.submit}
         credentials={{ email, password }}
-        // onLoggedIn={() => navigation.dispatch({ type: 'NAVIGATE', route: 'WatchList' })}
       />
+    );
+  }
+
+  renderFooter() {
+    if (this.state.isRegistering) {
+      return (
+        <View style={styles.footer}>
+          <Text
+            style={styles.footerText}
+            onPress={() => this.setState({ isRegistering: false })}>
+            Already have an account? <Text style={styles.footerLink}>Sign in.</Text>
+          </Text>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.footer}>
+        <Text
+          style={styles.footerText}
+          onPress={() => this.setState({ isRegistering: true })}>
+          Don't have an account? <Text style={styles.footerLink}>Sign up.</Text>
+        </Text>
+      </View>
     );
   }
 }
