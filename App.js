@@ -1,33 +1,24 @@
 import React from 'react';
 import WBNavigator from './WBNavigator';
-import configureStore from './store/configureStore';
 import * as firebase from 'firebase';
+import { configureStore } from './store/configureStore';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import { firebaseConfig } from './env';
 
 firebase.initializeApp(firebaseConfig);
 
+const { persistor, store } = configureStore();
+
 class App extends React.Component {
-  store = configureStore();
-
-  state: {
-    isLoading: boolean,
-    store: any
-  };
-
-  constructor() {
-    super();
-    this.state = {
-      storeCreated: false,
-      store: {}
-    };
-  }
-
+  // Todo: abstract app and root
   render() {
     return (
-      // Todo: abstract app and root
-      <Provider store={this.store}>
-        <WBNavigator/>
+      <Provider store={store}>
+        <PersistGate
+          persistor={persistor}>
+          <WBNavigator/>
+        </PersistGate>
       </Provider>
     );
   }

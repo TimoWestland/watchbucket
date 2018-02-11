@@ -1,33 +1,26 @@
-import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import promise from './promise';
+import array from './array';
+import {reducers} from '../reducers';
+import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
-import reducers from '../reducers';
-
-const isDebuggingInChrome = true;
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { persistStore } from 'redux-persist';
 
 const logger = createLogger({
-  predicate: (getState, action) => isDebuggingInChrome,
+  predicate: (getState, action) => __DEV__,
   collapsed: false,
   duration: true
 });
 
-// const createWBStore = createStore(
-//   reducers,
-//   {},
-//   applyMiddleware(thunk, logger)
-// );
-
-function configureStore() {
+export const configureStore = () => {
   const store = createStore(
     reducers,
-    applyMiddleware(thunk, logger)
+    composeWithDevTools(
+      applyMiddleware(thunk, promise, array, logger),
+    )
   );
+  const persistor = persistStore(store);
 
-  if (isDebuggingInChrome) {
-    window.store = store;
-  }
-
-  return store;
-}
-
-module.exports = configureStore;
+  return { persistor, store };
+};
