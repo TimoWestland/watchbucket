@@ -2,6 +2,7 @@ import React from 'react';
 import WBColors from '../common/WBColors';
 import LoginButton from '../common/LoginButton';
 import RegisterButton from '../common/RegisterButton';
+import FacebookLoginButton from '../common/FacebookLoginButton';
 import {
   Image,
   View,
@@ -80,6 +81,7 @@ class LoginScreen extends React.Component {
             </View>
           </View>
           {this.renderButton()}
+          <FacebookLoginButton />
         </KeyboardAvoidingView>
         {this.renderFooter()}
       </ImageBackground>

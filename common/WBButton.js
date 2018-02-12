@@ -6,7 +6,7 @@ const BUTTON_HEIGHT = 52;
 
 class WBButton extends React.Component {
   props: {
-    theme: 'primary' | 'secondary',
+    theme: 'primary' | 'secondary' | 'fb' | 'google',
     opacity: number,
     icon?: number,
     caption?: string,
@@ -72,6 +72,12 @@ class WBButton extends React.Component {
     if (theme === 'primary') {
       buttonTheme = { backgroundColor: WBColors.accent };
       captionTheme = { color: WBColors.white };
+    } else if (theme === 'facebook') {
+      buttonTheme = { backgroundColor: WBColors.facebookBlue };
+      captionTheme = { color: WBColors.white };
+    } else if (theme === 'google') {
+      buttonTheme = { backgroundColor: WBColors.white };
+      captionTheme = { color: WBColors.darkGray };
     } else {
       buttonTheme = { backgroundColor: WBColors.primary };
       captionTheme = { color: WBColors.white };
@@ -103,4 +109,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = WBButton;
+export default WBButton;

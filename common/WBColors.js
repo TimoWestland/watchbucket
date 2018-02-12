@@ -6,6 +6,10 @@ const NAMED_COLORS = {
   grayBlue: 'rgba(96, 125, 139, 1)',
   darkBlue: 'rgba(69, 90, 100, 1)',
 
+  darkGray: 'rgba(108, 108, 108, 1)',
+
+  facebookBlue: 'rgba(66, 103, 178, 1)',
+
   // green: '',
   // red: '',
 };

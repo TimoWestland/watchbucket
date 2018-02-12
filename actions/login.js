@@ -1,9 +1,9 @@
 import * as firebase from 'firebase';
 import { Action, ThunkAction } from './types';
 
-// todo: create fb login
-// todo: create google login
-
+/**
+ * Email + password login
+ */
 async function firebaseEmailPasswordLogin(email, password): Promise {
   return new Promise((resolve, reject) => {
     firebase.auth()
@@ -30,12 +30,54 @@ function logInWithPassword({ email, password }): ThunkAction {
     login.then(result => {
       dispatch(result);
       dispatch({ type: 'NAVIGATE', route: 'WatchList' });
-    }).catch(e => console.log(e));
+    }).catch(err => console.log(err));
 
     return login;
   };
 }
 
+/**
+ * Facebook login
+ */
+const provider = new firebase.auth.FacebookAuthProvider();
+provider.addScope('email, public_profile');
+
+async function firebaseFacebookLogin() {
+  return new Promise((resolve, reject) => {
+    firebase.auth()
+      .signInWithPopup(provider)
+      .then((res) => resolve(res))
+      .catch((error) => reject(error.toString()));
+  });
+}
+
+async function _logInWithFacebook(): Promise<Action> {
+  const data = await firebaseFacebookLogin();
+
+  const action = {
+    type: 'LOGGED_IN',
+    data
+  };
+  return Promise.resolve(action);
+}
+
+function logInWithFacebook(): ThunkAction {
+  return dispatch => {
+    const login = _logInWithFacebook();
+
+    login.then(result => {
+      dispatch(result);
+      dispatch({ type: 'NAVIGATE', route: 'WatchList' });
+    }).catch(err => console.log(err));
+
+    return login;
+  }
+}
+
+
+/**
+ * Logout
+ */
 function logOut(): ThunkAction {
   return dispatch => {
     firebase.auth().signOut();
@@ -48,5 +90,6 @@ function logOut(): ThunkAction {
 
 export {
   logInWithPassword,
+  logInWithFacebook,
   logOut,
 };
